@@ -3,7 +3,8 @@ package(
 )
 
 platform(
-    name = "x86_64_windows_cygwin",
+#    name = "x86_64_windows_cygwin",
+    name = "windows",
     constraint_values = [
         "@platforms//cpu:x86_64",
         "@platforms//os:windows",
@@ -11,7 +12,8 @@ platform(
 )
 
 platform(
-    name = "armv7_bare_metal",
+#    name = "armv7_bare_metal",
+    name = "arm",
     constraint_values = [
         "@platforms//cpu:armv7",
         "@platforms//os:none",
