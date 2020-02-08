@@ -3,7 +3,12 @@ build --verbose_failures
 test --test_output=all
 
 # Compile with C++17.
-build --copt=/std:c++17
+build:windows --copt=/std:c++17
+build:arm     --copt=-std=c++17
+
+# When using ARM, pass specific compiler arguments.
+build:arm --copt=-mcpu=cortex-m3
+build:arm --copt=-mthumb
 
 # Specify location of MSVC. (TODO necessary?)
 # build --action_env BAZEL_VS="/cygdrive/c/Program Files(x86)/Microsoft Visual Studio/2019/BuildTools"
@@ -11,8 +16,19 @@ build --copt=/std:c++17
 # Use toolchains. See https://github.com/bazelbuild/bazel/issues/7260.
 build --incompatible_enable_cc_toolchain_resolution
 
+# Make use of more granular cc_toolchain attributes. See
+# https://github.com/bazelbuild/bazel/issues/8531.
+build --incompatible_use_specific_tool_files
+
 # Verbose toolchain resolution output.
 build --toolchain_resolution_debug
+
+# Link configs to platform specifications.
+build:windows --platforms=//bazel/platforms:windows
+build:arm --platforms=//bazel/platforms:arm
+
+
+
 
 ### Use toolchains instead of CROSSTOOLs
 

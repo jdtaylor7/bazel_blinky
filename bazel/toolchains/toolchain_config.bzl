@@ -3,8 +3,7 @@ load("@bazel_tools//tools/cpp:cc_toolchain_config_lib.bzl", "tool_path")
 # Windows toolchain configuration.
 
 def _windows_toolchain_config_impl(ctx):
-    out = ctx.actions.declare_file(ctx.label.name)
-    toolpaths = [
+    tool_paths = [
         tool_path(
             name = "ar",
             path = "/usr/bin/ar",
@@ -16,6 +15,10 @@ def _windows_toolchain_config_impl(ctx):
         tool_path(
             name = "gcc",
             path = "/usr/bin/gcc",
+        ),
+        tool_path(
+            name = "gcov",
+            path = "/usr/bin/gcov",
         ),
         tool_path(
             name = "ld",
@@ -38,13 +41,13 @@ def _windows_toolchain_config_impl(ctx):
         cc_common.create_cc_toolchain_config_info(
             ctx = ctx,
             toolchain_identifier = "windows_toolchain",
-            host_system_name = "",
-            target_system_name = "",
-            target_cpu = "",
-            target_libc = "",
-            compiler = "",
-            abi_version = "",
-            abi_libc_version = "",
+            host_system_name = "unknown",
+            target_system_name = "unknown",
+            target_cpu = "unknown",
+            target_libc = "unknown",
+            compiler = "unknown",
+            abi_version = "unknown",
+            abi_libc_version = "unknown",
             tool_paths = tool_paths,
         )
     ]
@@ -52,62 +55,66 @@ def _windows_toolchain_config_impl(ctx):
 windows_toolchain_config = rule(
     implementation = _windows_toolchain_config_impl,
     provides = [CcToolchainConfigInfo],
-    executable = True,
 )
 
 # Arm toolchain configuration.
 
-arm_toolchain_base_path = "/cygdrive/c/Program Files (x86)/GNU Tools Arm Embedded/bin/"
-
 def _arm_toolchain_config_impl(ctx):
-    out = ctx.actions.declare_file(ctx.label.name)
-    toolpaths = [
+    tool_paths = [
         tool_path(
             name = "ar",
-            path = arm_toolchain_base_path + "arm-none-eabi-ar",
+            path = "bin/false",
         ),
         tool_path(
             name = "cpp",
-            path = arm_toolchain_base_path + "arm-none-eabi-cpp",
+            path = "//external/arm_none_eabi/bin/arm-none-eabi-c++.exe",
         ),
         tool_path(
             name = "gcc",
-            path = arm_toolchain_base_path + "arm-none-eabi-gcc",
+            path = "//external/arm_none_eabi/bin/arm-none-eabi-g++.exe",
+        ),
+        tool_path(
+            name = "gcov",
+            path = "bin/false",
         ),
         tool_path(
             name = "ld",
-            path = arm_toolchain_base_path + "arm-none-eabi-ld",
+            path = "//external/arm_none_eabi/bin/arm-none-eabi-ld.exe",
         ),
         tool_path(
             name = "nm",
-            path = arm_toolchain_base_path + "arm-none-eabi-nm",
+            path = "bin/false",
+        ),
+        tool_path(
+            name = "objcopy",
+            path = "//external/arm_none_eabi/bin/arm-none-eabi-objcopy.exe",
         ),
         tool_path(
             name = "objdump",
-            path = arm_toolchain_base_path + "arm-none-eabi-objdump",
+            path = "bin/false",
         ),
         tool_path(
             name = "strip",
-            path = arm_toolchain_base_path + "arm-none-eabi-strip",
+            path = "bin/false",
         ),
     ]
     return [
         cc_common.create_cc_toolchain_config_info(
             ctx = ctx,
             toolchain_identifier = "arm_toolchain",
-            host_system_name = "",
-            target_system_name = "",
-            target_cpu = "",
-            target_libc = "",
-            compiler = "",
-            abi_version = "",
-            abi_libc_version = "",
+            host_system_name = "unknown",
+            target_system_name = "unknown",
+            target_cpu = "armv7",
+            target_libc = "unknown",
+            compiler = "arm_none_eabi",
+            abi_version = "unknown",
+            abi_libc_version = "unknown",
             tool_paths = tool_paths,
         )
     ]
 
 arm_toolchain_config = rule(
     implementation = _arm_toolchain_config_impl,
+    fragments = ["cpp"],
     provides = [CcToolchainConfigInfo],
-    executable = True,
 )
