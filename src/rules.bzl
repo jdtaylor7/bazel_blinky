@@ -1,23 +1,34 @@
-# load("//bazel/toolchains:toolchain_config.bzl", "arm_toolchain_config")
-load("//bazel/toolchains:BUILD", "arm_cc_toolchain")
+load("//bazel/toolchains:toolchain_config.bzl", "arm_toolchain_config")
 
 def _cc_firmware_impl(ctx):
     print("cc_firmware rule!!!")
-    print("src: {}".format(ctx.attr.src.files.to_list()[0]))
+    print("src: {}".format(ctx.attr.src.files.to_list()[0].path))
     print("deps: {}".format(ctx.attr.deps))
     print("copts: {}".format(ctx.attr.copts))
-    print("compiler: {}".format(arm_cc_toolchain[CcToolchainConfigInfo]))
+    print("toolchains: {}".format(ctx.toolchains))
+    print("compiler: {}".format(ctx.toolchains["@bazel_tools//tools/cpp:toolchain_type"].compiler_executable))
+    print("linker: {}".format(ctx.toolchains["@bazel_tools//tools/cpp:toolchain_type"].ld_executable))
+    print("objcopy: {}".format(ctx.toolchains["@bazel_tools//tools/cpp:toolchain_type"].objcopy_executable))
 
     src = ctx.attr.src.files.to_list()[0]
+    compiler_path = ctx.toolchains["@bazel_tools//tools/cpp:toolchain_type"].compiler_executable
+    linker_path = ctx.toolchains["@bazel_tools//tools/cpp:toolchain_type"].ld_executable
+    objcopy_path = ctx.toolchains["@bazel_tools//tools/cpp:toolchain_type"].objcopy_executable
 
-    # # Compile.
-    # ctx.actions.run(
-    #     outputs = [ctx.outputs.obj],
-    #     inputs = [src],
-    #     executable = "".format(
-    #
-    #     ),
-    # )
+    # Compile.
+    ctx.actions.run(
+        # outputs = [ctx.outputs.obj],
+        # inputs = [src],
+        # executable = "{compiler} -c -mcpu=cortex-m3 -mthumb --std=c++17 -O2 -fno-rtti -fno-exceptions -Iinclude/cmsis -Iinclude/stm32f1x {cc_bin} -o {obj_out}".format(
+        #     compiler=compiler_path,
+        #     copts=ctx.attr.copts,
+        #     cc_bin=src.path,
+        #     obj_out=ctx.outputs.obj.path,
+        # ),
+        executable = "{compiler} --version".format(
+            compiler=compiler_path
+        )
+    )
 
     # # Link.
     # ctx.action(
@@ -50,4 +61,5 @@ cc_firmware = rule(
         # "elf": "%{name}.elf",
         # "bin": "%{name}.bin",
     },
+    toolchains = ["@bazel_tools//tools/cpp:toolchain_type"]
 )
