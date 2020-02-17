@@ -26,17 +26,3 @@ build --toolchain_resolution_debug
 # Link configs to platform specifications.
 build:windows --platforms=//bazel/platforms:windows
 build:arm --platforms=//bazel/platforms:arm
-
-
-
-
-### Use toolchains instead of CROSSTOOLs
-
-# Specify top directory of CROSSTOOL file.
-#build:arm --crosstool_top=//toolchain:arm
-
-# Specify target CPU architecture.
-#build:arm --cpu=arm
-
-# Enable cross compilation by specifying different host/target toolchains.
-#build:arm --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
