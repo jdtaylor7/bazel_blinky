@@ -2,39 +2,41 @@ load("@bazel_tools//tools/cpp:cc_toolchain_config_lib.bzl", "tool_path")
 
 # Windows toolchain configuration.
 
+msvc_path = "/cygdrive/c/Program Files(x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.24.28314/bin/Hostx64/x64/"
+
 def _windows_toolchain_config_impl(ctx):
     tool_paths = [
         tool_path(
             name = "ar",
-            path = "/usr/bin/ar",
+            path = "/bin/false",
         ),
         tool_path(
             name = "cpp",
-            path = "/usr/bin/cpp",
+            path = "/bin/false",
         ),
         tool_path(
             name = "gcc",
-            path = "/usr/bin/gcc",
+            path = msvc_path + "cl.exe",
         ),
         tool_path(
             name = "gcov",
-            path = "/usr/bin/gcov",
+            path = "/bin/false",
         ),
         tool_path(
             name = "ld",
-            path = "/usr/bin/ld",
+            path = msvc_path + "link.exe",
         ),
         tool_path(
             name = "nm",
-            path = "/usr/bin/nm",
+            path = "/bin/false",
         ),
         tool_path(
             name = "objdump",
-            path = "/usr/bin/objdump",
+            path = "/bin/false",
         ),
         tool_path(
             name = "strip",
-            path = "/usr/bin/strip",
+            path = "/bin/false",
         ),
     ]
     return [
@@ -59,43 +61,45 @@ windows_toolchain_config = rule(
 
 # Arm toolchain configuration.
 
+arm_gcc_path = "//external/arm_none_eabi/bin/"
+
 def _arm_toolchain_config_impl(ctx):
     tool_paths = [
         tool_path(
             name = "ar",
-            path = "bin/false",
+            path = "/bin/false",
         ),
         tool_path(
             name = "cpp",
-            path = "//external/arm_none_eabi/bin/arm-none-eabi-c++.exe",
+            path = arm_gcc_path + "arm-none-eabi-c++.exe",
         ),
         tool_path(
             name = "gcc",
-            path = "//external/arm_none_eabi/bin/arm-none-eabi-g++.exe",
+            path = arm_gcc_path + "arm-none-eabi-g++.exe",
         ),
         tool_path(
             name = "gcov",
-            path = "bin/false",
+            path = "/bin/false",
         ),
         tool_path(
             name = "ld",
-            path = "//external/arm_none_eabi/bin/arm-none-eabi-ld.exe",
+            path = arm_gcc_path + "arm-none-eabi-ld.exe",
         ),
         tool_path(
             name = "nm",
-            path = "bin/false",
+            path = "/bin/false",
         ),
         tool_path(
             name = "objcopy",
-            path = "//external/arm_none_eabi/bin/arm-none-eabi-objcopy.exe",
+            path = arm_gcc_path + "arm-none-eabi-objcopy.exe",
         ),
         tool_path(
             name = "objdump",
-            path = "bin/false",
+            path = "/bin/false",
         ),
         tool_path(
             name = "strip",
-            path = "bin/false",
+            path = "/bin/false",
         ),
     ]
     return [

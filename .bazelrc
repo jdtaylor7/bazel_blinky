@@ -1,10 +1,14 @@
 # Verbose failures and tests.
 build --verbose_failures
-test --test_output=all
+build --test_output=all
+test --verbose_test_summary
 
 # Compile with C++17.
 build:windows --copt=/std:c++17
 build:arm     --copt=-std=c++17
+
+# Specify MSVC location.
+build:windows --action_env BAZEL_VS="/cygdrive/c/Program Files(x86)/Microsoft Visual Studio/2019/BuildTools"
 
 # When using ARM, pass specific compiler arguments.
 build:arm --copt=-mcpu=cortex-m3

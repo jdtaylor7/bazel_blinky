@@ -1,4 +1,4 @@
-arm-none-eabi-g++ -c -mcpu=cortex-m3 -mthumb --std=c++17 -O2 -fno-rtti -fno-exceptions -Iinclude/cmsis -Iinclude/stm32f1xx src/main.cpp -o main.o
+arm-none-eabi-g++ -c -mcpu=cortex-m3 -mthumb --std=c++17 -O2 -fno-rtti -fno-exceptions -Iinclude/st/cmsis -Iinclude/st/stm32f1xx src/main.cpp -o main.o
 arm-none-eabi-g++ -mcpu=cortex-m3 -mthumb -Tlinkerscript.ld -nostartfiles main.o -o main.elf
 arm-none-eabi-objcopy -O binary main.elf main.bin
 

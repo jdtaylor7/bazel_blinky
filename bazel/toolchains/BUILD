@@ -60,7 +60,6 @@ toolchain(
     name = "arm_cc_toolchain",
     toolchain = "arm_cc_toolchain_definition",
     toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
-    # toolchain_type = ":toolchain_type",
     exec_compatible_with = [
         "@platforms//cpu:x86_64",
         "@platforms//os:windows",
